@@ -104,12 +104,21 @@ export default function App() {
   // Main App Layout
   return (
     <ProtectedRoute>
-      <div className="h-screen w-full flex antialiased ">
+      <div className="min-h-screen w-full flex antialiased bg-gray-50">
         <Sidebar />
+
         <div className="flex flex-col flex-1 min-w-0 md:ml-60">
-          <Header />
-          <main className="flex-1 overflow-auto px-6 py-4">
-            <Outlet />
+          {/* Header Section */}
+
+            <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
+              <Header/>
+            </header>
+
+          {/* Main Content */}
+          <main className="flex-1 overflow-y-auto pb-20 md:pb-0">
+            <div className=" mx-auto p-4 md:p-6 lg:p-8 ">
+              <Outlet/>
+            </div>
           </main>
         </div>
       </div>

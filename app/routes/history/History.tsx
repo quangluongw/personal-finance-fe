@@ -210,24 +210,24 @@ const History = () => {
           </button>
         </div>
         <div>
-          <div className="flex gap-4 mb-6 lg:flex-row flex-col ">
-            <div className="flex-1 relative">
+          <div className="flex gap-3 mb-6 lg:flex-row flex-col">
+            <div className="flex-1 relative min-w-0">
               <Input
-                name={"description"}
+                name="description"
                 allowClear
                 defaultValue={params.get("description") || ""}
                 placeholder="Tìm kiếm giao dịch..."
-                // onChange={(e) => updateParam("description", e.target.value)}
                 onPressEnter={(e: any) => {
                   updateParam("description", e.target.value);
                 }}
-                className="h-12 !min-w-[200px]"
+                className="h-10 md:h-12 w-full"
               />
             </div>
 
-            <div className="flex gap-2 ">
+            <div className="flex gap-2 flex-wrap items-center">
               <Select
-                style={{ width: "100px", height: "48px" }}
+                className="w-24 md:w-28"
+                style={{ height: "40px" }}
                 defaultValue="Tất cả "
                 options={dataCaterori.map((item: Caterori) => ({
                   value: item._id,
@@ -242,37 +242,45 @@ const History = () => {
                 format="MM/YYYY"
                 defaultValue={defaultMonth}
                 allowClear={false}
+                className="h-10 md:h-12"
+                style={{ minWidth: "120px" }}
               />
+
               <button
                 onClick={() => updateParam("transactionType", "")}
-                className={`h-12 px-6 cursor-pointer border-2 border-slate-200 rounded-xl font-medium transition-all
-                 ${
-                   params.get("transactionType") === null
-                     ? "bg-slate-900 dark:bg-slate-50 text-white dark:text-slate-900 shadow-lg "
-                     : "bg-white dark:bg-slate-900"
-                 }`}
+                className={`h-10 md:h-12 px-3 md:px-6 cursor-pointer border-2 border-slate-200 rounded-xl 
+            text-xs md:text-sm font-medium transition-all whitespace-nowrap
+            ${
+              params.get("transactionType") === null
+                ? "bg-slate-900 dark:bg-slate-50 text-white dark:text-slate-900 shadow-lg"
+                : "bg-white dark:bg-slate-900"
+            }`}
               >
                 Tất cả
               </button>
+
               <button
                 onClick={() => updateParam("transactionType", "income")}
-                className={`h-12 px-6 rounded-xl border-2 border-slate-200 cursor-pointer font-medium 
-                  transition-all
-                 ${
-                   params.get("transactionType") === "income"
-                     ? "bg-emerald-600 text-white shadow-lg shadow-emerald-500/30"
-                     : "bg-white dark:bg-slate-900 hover:bg-emerald-600 hover:text-white"
-                 }`}
+                className={`h-10 md:h-12 px-3 md:px-6 rounded-xl border-2 border-slate-200 cursor-pointer 
+            text-xs md:text-sm font-medium transition-all whitespace-nowrap
+            ${
+              params.get("transactionType") === "income"
+                ? "bg-emerald-600 text-white shadow-lg shadow-emerald-500/30"
+                : "bg-white dark:bg-slate-900 hover:bg-emerald-600 hover:text-white"
+            }`}
               >
                 Thu nhập
               </button>
+
               <button
                 onClick={() => updateParam("transactionType", "expense")}
-                className={`h-12 px-6 rounded-xl border-2 border-slate-200 cursor-pointer font-medium transition-all ${
-                  params.get("transactionType") === "expense"
-                    ? "bg-rose-600 text-white shadow-lg shadow-rose-500/30"
-                    : "bg-white dark:bg-slate-900 hover:bg-rose-600 hover:text-white"
-                }`}
+                className={`h-10 md:h-12 px-3 md:px-6 rounded-xl border-2 border-slate-200 cursor-pointer 
+            text-xs md:text-sm font-medium transition-all whitespace-nowrap
+            ${
+              params.get("transactionType") === "expense"
+                ? "bg-rose-600 text-white shadow-lg shadow-rose-500/30"
+                : "bg-white dark:bg-slate-900 hover:bg-rose-600 hover:text-white"
+            }`}
               >
                 Chi tiêu
               </button>
