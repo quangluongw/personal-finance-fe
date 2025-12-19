@@ -78,50 +78,50 @@ const History = () => {
     <div className="space-y-6">
       <div className="grid gap-6 xl:grid-cols-3">
         {/* Income Card */}
-        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 px-6 py-4 shadow-sm border border-emerald-200/50 dark:border-emerald-800/50 transition-all hover:shadow-lg hover:scale-[1.02]">
+        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 px-6 py-4 shadow-sm border border-emerald-200/50 transition-all hover:shadow-lg hover:scale-[1.02]">
           <div className="flex items-start justify-between mb-4">
             <div className="rounded-full bg-emerald-500/10 px-3 py-1">
-              <span className="text-xs font-medium text-emerald-700 dark:text-emerald-300">
+              <span className="text-xs font-medium text-emerald-700 ">
                 Thu nhập
               </span>
             </div>
           </div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <p className="text-sm font-medium text-emerald-900/60 dark:text-emerald-100/60">
+              <p className="text-sm font-medium text-emerald-900/60 ">
                 Tổng Thu Nhập
               </p>
-              <p className="text-3xl font-bold text-emerald-700 dark:text-emerald-400">
+              <p className="text-3xl font-bold text-emerald-700">
                 {formatCurrency(totalIncome)}
               </p>
             </div>
             <div className="rounded-xl bg-emerald-500/10 p-3 ring-1 ring-emerald-500/20">
-              <TrendingUp className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+              <TrendingUp className="h-6 w-6 text-emerald-600" />
             </div>
           </div>
           <div className="absolute -right-8 -bottom-8 h-32 w-32 rounded-full bg-emerald-500/5 blur-2xl" />
         </div>
 
         {/* Expense Card */}
-        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-rose-50 to-red-50 dark:from-rose-950/30 dark:to-red-950/30 px-6 py-4 shadow-sm border border-rose-200/50 dark:border-rose-800/50 transition-all hover:shadow-lg hover:scale-[1.02]">
+        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-rose-50 to-red-50 px-6 py-4 shadow-sm border border-rose-200/50 transition-all hover:shadow-lg hover:scale-[1.02]">
           <div className="flex items-start justify-between mb-4">
             <div className="rounded-full bg-rose-500/10 px-3 py-1">
-              <span className="text-xs font-medium text-rose-700 dark:text-rose-300">
+              <span className="text-xs font-medium text-rose-700">
                 Chi tiêu
               </span>
             </div>
           </div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <p className="text-sm font-medium text-rose-900/60 dark:text-rose-100/60">
+              <p className="text-sm font-medium text-rose-900/60 ">
                 Tổng Chi Tiêu
               </p>
-              <p className="text-3xl font-bold text-rose-700 dark:text-rose-400">
+              <p className="text-3xl font-bold text-rose-700">
                 {formatCurrency(totalExpense)}
               </p>
             </div>
             <div className="rounded-xl bg-rose-500/10 p-3 ring-1 ring-rose-500/20">
-              <TrendingDown className="h-6 w-6 text-rose-600 dark:text-rose-400" />
+              <TrendingDown className="h-6 w-6 text-rose-600" />
             </div>
           </div>
           <div className="absolute -right-8 -bottom-8 h-32 w-32 rounded-full bg-rose-500/5 blur-2xl" />
@@ -131,8 +131,8 @@ const History = () => {
         <div
           className={`group relative overflow-hidden rounded-2xl px-6 py-4 shadow-sm border transition-all hover:shadow-lg hover:scale-[1.02] ${
             balance >= 0
-              ? "bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-blue-200/50 dark:border-blue-800/50"
-              : "bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border-amber-200/50 dark:border-amber-800/50"
+              ? "bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200/50"
+              : "bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200/50 "
           }`}
         >
           <div className="flex items-start justify-between mb-4">
@@ -141,9 +141,7 @@ const History = () => {
             >
               <span
                 className={`text-xs font-medium ${
-                  balance >= 0
-                    ? "text-blue-700 dark:text-blue-300"
-                    : "text-amber-700 dark:text-amber-300"
+                  balance >= 0 ? "text-blue-700" : "text-amber-700"
                 }`}
               >
                 {balance >= 0 ? "Dương" : "Âm"}
@@ -154,18 +152,14 @@ const History = () => {
             <div className="space-y-1">
               <p
                 className={`text-sm font-medium ${
-                  balance >= 0
-                    ? "text-blue-900/60 dark:text-blue-100/60"
-                    : "text-amber-900/60 dark:text-amber-100/60"
+                  balance >= 0 ? "text-blue-900/60 " : "text-amber-900/60 "
                 }`}
               >
                 Số Dư
               </p>
               <p
                 className={`text-3xl font-bold ${
-                  balance >= 0
-                    ? "text-blue-700 dark:text-blue-400"
-                    : "text-amber-700 dark:text-amber-400"
+                  balance >= 0 ? "text-blue-700 " : "text-amber-700"
                 }`}
               >
                 {formatCurrency(balance)}
@@ -180,9 +174,7 @@ const History = () => {
             >
               <Wallet
                 className={`h-6 w-6 ${
-                  balance >= 0
-                    ? "text-blue-600 dark:text-blue-400"
-                    : "text-amber-600 dark:text-amber-400"
+                  balance >= 0 ? "text-blue-600 " : "text-amber-600"
                 }`}
               />
             </div>
@@ -252,8 +244,8 @@ const History = () => {
             text-xs md:text-sm font-medium transition-all whitespace-nowrap
             ${
               params.get("transactionType") === null
-                ? "bg-slate-900 dark:bg-slate-50 text-white dark:text-slate-900 shadow-lg"
-                : "bg-white dark:bg-slate-900"
+                ? "bg-slate-900 text-white shadow-lg"
+                : "bg-white"
             }`}
               >
                 Tất cả
@@ -266,7 +258,7 @@ const History = () => {
             ${
               params.get("transactionType") === "income"
                 ? "bg-emerald-600 text-white shadow-lg shadow-emerald-500/30"
-                : "bg-white dark:bg-slate-900 hover:bg-emerald-600 hover:text-white"
+                : "bg-white hover:bg-emerald-600 hover:text-white"
             }`}
               >
                 Thu nhập
@@ -279,7 +271,7 @@ const History = () => {
             ${
               params.get("transactionType") === "expense"
                 ? "bg-rose-600 text-white shadow-lg shadow-rose-500/30"
-                : "bg-white dark:bg-slate-900 hover:bg-rose-600 hover:text-white"
+                : "bg-white hover:bg-rose-600 hover:text-white"
             }`}
               >
                 Chi tiêu
@@ -291,39 +283,39 @@ const History = () => {
             {data?.transactions?.map((transaction: Transaction) => (
               <div
                 key={transaction._id}
-                className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-sm border border-slate-200/50 dark:border-slate-800/50 transition-all hover:shadow-lg hover:scale-[1.01] hover:border-slate-300 dark:hover:border-slate-700"
+                className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border border-slate-200/50 transition-all hover:shadow-lg hover:scale-[1.01] hover:border-slate-300 "
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4 flex-1">
                     <div
                       className={`relative rounded-2xl p-3 shadow-sm ${
                         transaction.transactionType === "income"
-                          ? "bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-950/50 dark:to-teal-950/50"
-                          : "bg-gradient-to-br from-rose-100 to-pink-100 dark:from-rose-950/50 dark:to-pink-950/50"
+                          ? "bg-gradient-to-br from-emerald-100 to-teal-100 "
+                          : "bg-gradient-to-br from-rose-100 to-pink-100"
                       }`}
                     >
                       {transaction.transactionType !== "income" ? (
-                        <ArrowDownLeft className="h-6 w-6 text-rose-600 dark:text-rose-400" />
+                        <ArrowDownLeft className="h-6 w-6 text-rose-600" />
                       ) : (
-                        <ArrowUpRight className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                        <ArrowUpRight className="h-6 w-6 text-emerald-600" />
                       )}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-lg text-slate-900 dark:text-slate-50 mb-1">
+                        <h4 className="font-semibold text-lg text-slate-900 mb-1">
                           {transaction.description}
                         </h4>
                         <div
                           className={` w-[70px] py-[3px] flex justify-center rounded-md ${
                             transaction.transactionType === "income"
-                              ? "bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-950/50 dark:to-teal-950/50"
-                              : "bg-gradient-to-br from-rose-100 to-pink-100 dark:from-rose-950/50 dark:to-pink-950/50"
+                              ? "bg-gradient-to-br from-emerald-100 to-teal-100 "
+                              : "bg-gradient-to-br from-rose-100 to-pink-100 "
                           }`}
                         >
                           {transaction?.categoryId.name}
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
+                      <div className="flex items-center gap-3 text-sm text-slate-500 ">
                         <div className="flex items-center gap-1.5">
                           <Calendar className="h-4 w-4" />
                           <span>
@@ -340,8 +332,8 @@ const History = () => {
                     <div
                       className={`text-2xl font-bold ${
                         transaction.transactionType === "income"
-                          ? "text-emerald-600 dark:text-emerald-400"
-                          : "text-rose-600 dark:text-rose-400"
+                          ? "text-emerald-600"
+                          : "text-rose-600"
                       }`}
                     >
                       {transaction.transactionType === "income" ? "+" : "-"}
