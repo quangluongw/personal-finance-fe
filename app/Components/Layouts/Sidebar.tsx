@@ -1,11 +1,4 @@
-import {
-  CreditCard,
-  History,
-  Home,
-  Receipt,
-  Target,
-  Wallet,
-} from "lucide-react";
+import { History, Home, Receipt, Target, Wallet } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import icon from "../../Image/icon.png";
 
@@ -17,13 +10,6 @@ const Sidebar = () => {
   const { pathname } = useLocation();
   const menuItems = [
     { icon: Home, label: "Thống kê", href: "/", key: " ", mobile: true },
-    {
-      icon: CreditCard,
-      label: "Chi tiêu",
-      href: "/spending",
-      key: "chi-tieu",
-      mobile: true,
-    },
     {
       icon: Receipt,
       label: "Thu nhập",

@@ -22,6 +22,7 @@ import "./app.css";
 import Header from "./Components/Layouts/Header";
 import Sidebar from "./Components/Layouts/Sidebar";
 import icon from "./Image/icon.png";
+import Loading from "./Loading";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -79,15 +80,29 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
   const token = isBrowser ? sessionStorage.getItem("token") : null;
   const location = useLocation();
   const navigate = useNavigate();
+  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    if (isBrowser && !token) {
-      navigate("/login", { state: { from: location }, replace: true });
+    if (isBrowser) {
+      // Delay ngắn để Loading animation có thể hiển thị
+      const timer = setTimeout(() => {
+        if (!token) {
+          navigate("/login", { state: { from: location }, replace: true });
+        } else {
+          setIsChecking(false);
+        }
+      }, 300); // Đợi 300ms để animation bắt đầu
+
+      return () => clearTimeout(timer);
     }
   }, [isBrowser, token, location, navigate]);
 
-  if (!isBrowser || !token) {
-    return <div>Loading...</div>;
+  if (!isBrowser) {
+    return <Loading />;
+  }
+
+  if (isChecking || !token) {
+    return <Loading />;
   }
 
   return <>{children}</>;
@@ -110,14 +125,14 @@ export default function App() {
         <div className="flex flex-col flex-1 min-w-0 md:ml-60">
           {/* Header Section */}
 
-            <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
-              <Header/>
-            </header>
+          <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
+            <Header />
+          </header>
 
           {/* Main Content */}
           <main className="flex-1 overflow-y-auto pb-20 md:pb-0">
             <div className=" mx-auto p-4 md:p-6 lg:p-8 ">
-              <Outlet/>
+              <Outlet />
             </div>
           </main>
         </div>

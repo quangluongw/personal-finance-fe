@@ -18,10 +18,10 @@ const useHistory = () => {
     queryFn: () => getTransaction(token?.id as string, params),
   });
 
-    const { data:dataCaterori, isLoading: isCateroriLoading } = useQuery({
-      queryKey: ["caterories", params],
-      queryFn: () => Caterories(),
-    });
+  const { data: dataCaterori, isLoading: isCateroriLoading } = useQuery({
+    queryKey: ["caterories", params],
+    queryFn: () => Caterories(),
+  });
 
   const { data: totalTransaction, isLoading: istotalTransactionLoading } =
     useQuery({

@@ -305,15 +305,6 @@ const History = () => {
                         <h4 className="font-semibold text-lg text-slate-900 mb-1">
                           {transaction.description}
                         </h4>
-                        <div
-                          className={` w-[70px] py-[3px] flex justify-center rounded-md ${
-                            transaction.transactionType === "income"
-                              ? "bg-gradient-to-br from-emerald-100 to-teal-100 "
-                              : "bg-gradient-to-br from-rose-100 to-pink-100 "
-                          }`}
-                        >
-                          {transaction?.categoryId.name}
-                        </div>
                       </div>
                       <div className="flex items-center gap-3 text-sm text-slate-500 ">
                         <div className="flex items-center gap-1.5">
@@ -328,7 +319,16 @@ const History = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-end gap-4 flex-col">
+                    <div
+                      className={` w-[70px] py-[3px] flex justify-center rounded-md ${
+                        transaction.transactionType === "income"
+                          ? "bg-gradient-to-br from-emerald-100 to-teal-100 "
+                          : "bg-gradient-to-br from-rose-100 to-pink-100 "
+                      }`}
+                    >
+                      {transaction?.categoryId.name}
+                    </div>
                     <div
                       className={`text-2xl font-bold ${
                         transaction.transactionType === "income"

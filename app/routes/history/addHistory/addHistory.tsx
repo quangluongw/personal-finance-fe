@@ -63,7 +63,7 @@ const AddHistory = ({
               <Select
                 {...field}
                 style={{ width: "100%" }}
-                options={dataCaterori.map((item: Caterori) => ({
+                options={dataCaterori?.map((item: Caterori) => ({
                   value: item._id,
                   label: item.name,
                 }))}
