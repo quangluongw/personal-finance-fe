@@ -16,8 +16,9 @@ import type { Caterori } from "~/Types/caterori";
 import type { Transaction } from "~/Types/transaction";
 import { formatCurrency } from "~/lib/format";
 import SkeletonHistory from "./SkeletonHistory";
-import AddHistory from "./addHistory/addHistory";
+
 import useHistory from "./useHistory";
+import AddHistory from "./addHistory/addHistory";
 const { MonthPicker } = DatePicker;
 
 const History = () => {

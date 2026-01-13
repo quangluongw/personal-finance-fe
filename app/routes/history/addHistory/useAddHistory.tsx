@@ -25,6 +25,7 @@ const useAddHistory = (setIsModalOpen: (v: boolean) => void) => {
     onSuccess: (response) => {
       sendMessage("success", response.message);
       queryClient.invalidateQueries({ queryKey: ["history"] });
+      queryClient.invalidateQueries({ queryKey: ["totalhistory"] });
       setIsModalOpen(false);
       reset();
     },

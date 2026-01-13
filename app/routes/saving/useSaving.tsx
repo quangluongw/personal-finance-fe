@@ -5,7 +5,7 @@ import useAuthentication from "~/hook/useAuthentication";
 const useSaving = () => {
   const { token } = useAuthentication();
   const { data, isLoading } = useQuery({
-    queryKey: ["history"],
+    queryKey: ["saving"],
     queryFn: () => getSaving(token?.id as string),
   });
   return {
