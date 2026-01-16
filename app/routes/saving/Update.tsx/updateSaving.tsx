@@ -1,4 +1,37 @@
-const updateSaving = ({ selectedGoal, setShowUpdateModal }) => {
+import { X } from "lucide-react";
+import type { Isaving } from "~/Types/saving";
+import useUpdateSaving from "./useUpdateSaving";
+import { useEffect } from "react";
+
+const UpdateSaving = ({
+  selectedGoal,
+  setShowUpdateModal,
+}: {
+  selectedGoal: any;
+  setShowUpdateModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { errors, handleSubmit, mutate, register, reset } =
+    useUpdateSaving(setShowUpdateModal);
+
+  const onSubmit = (value: Isaving) => {
+    mutate({
+      id: selectedGoal._id,
+      data: value,
+    });
+  };
+
+  useEffect(() => {
+    if (!selectedGoal) return;
+
+    reset({
+      currentAmount: selectedGoal.currentAmount,
+      description: selectedGoal.description,
+      name: selectedGoal.name,
+      targetAmount: selectedGoal.targetAmount,
+      userId: selectedGoal.userId,
+    });
+  }, [selectedGoal, reset]);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-2xl border border-green-200 bg-white p-6 shadow-2xl">
@@ -8,7 +41,7 @@ const updateSaving = ({ selectedGoal, setShowUpdateModal }) => {
           </h3>
           <button
             onClick={() => setShowUpdateModal(false)}
-            className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+            className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 cursor-pointer"
           >
             <X className="size-5" />
           </button>
@@ -22,7 +55,8 @@ const updateSaving = ({ selectedGoal, setShowUpdateModal }) => {
             <input
               type="text"
               {...register("name")}
-              className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.name ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"}`}
+              className={`w-full rounded-lg border outline-none transition-colors px-4 py-2.5 text-gray-900
+               ${errors?.name ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 border-gray-300"}`}
               placeholder="Ví dụ: Quỹ Du Lịch"
             />
             <div className="text-red-500">
@@ -39,7 +73,7 @@ const updateSaving = ({ selectedGoal, setShowUpdateModal }) => {
                 type="number"
                 {...register("currentAmount")}
                 placeholder="0"
-                className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.currentAmount ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"}`}
+                className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.currentAmount ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 border-gray-300"}`}
               />
               <div className="text-red-500">
                 {errors?.currentAmount?.message as string}
@@ -53,7 +87,7 @@ const updateSaving = ({ selectedGoal, setShowUpdateModal }) => {
               <input
                 type="number"
                 {...register("targetAmount")}
-                className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.targetAmount ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"}`}
+                className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.targetAmount ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 border-gray-300"}`}
                 placeholder="0"
               />
               <div className="text-red-500">
@@ -69,7 +103,8 @@ const updateSaving = ({ selectedGoal, setShowUpdateModal }) => {
             <textarea
               rows={3}
               {...register("description")}
-              className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.description ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"}`}
+              className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900
+              ${errors?.description ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 border-gray-300"}`}
             />
             <div className="text-red-500">
               {errors?.description?.message as string}
@@ -80,15 +115,16 @@ const updateSaving = ({ selectedGoal, setShowUpdateModal }) => {
             <button
               type="button"
               onClick={() => setShowUpdateModal(false)}
-              className="flex-1 rounded-lg border  outline-none bg-white px-4 py-2.5 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+              className="flex-1 rounded-lg border  outline-none bg-white px-4 py-2.5 font-medium text-gray-700 transition-colors hover:bg-gray-50 cursor-pointer"
             >
               Hủy
             </button>
             <button
               type="submit"
-              className="flex-1 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-2.5 font-semibold text-white shadow-lg transition-all hover:from-green-700 hover:to-emerald-700"
+              className="flex-1 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-2.5 
+              font-semibold text-white shadow-lg transition-all hover:from-green-700 hover:to-emerald-700 cursor-pointer"
             >
-              Tạo Mục Tiêu
+              Cập nhật Mục Tiêu
             </button>
           </div>
         </form>
@@ -97,4 +133,4 @@ const updateSaving = ({ selectedGoal, setShowUpdateModal }) => {
   );
 };
 
-export default updateSaving;
+export default UpdateSaving;

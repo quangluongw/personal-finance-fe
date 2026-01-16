@@ -1,7 +1,7 @@
 import type { Isaving } from "~/Types/saving";
 import { apiRequest } from "./apiService.service";
 
-export const getSaving = (
+export const getSavings = (
   id: string,
   queryParams: Record<string, string> = {}
 ) => {
@@ -12,6 +12,6 @@ export const addSaving = (data: Isaving) => {
   return apiRequest("post", `addSaving`, data);
 };
 
-export const updateSaving = (id:string,data: Isaving) => {
+export const updateSaving = (id: string , data: Isaving) => {
   return apiRequest("patch", `updateSaving/${id}`, data);
 };

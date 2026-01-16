@@ -1,14 +1,13 @@
 import { X } from "lucide-react";
-import useAddSaving from "./useAddSaving";
 import type { Isaving } from "~/Types/saving";
+import useAddSaving from "./useAddSaving";
 
 const AddSaving = ({
   setShowCreateModal,
 }: {
   setShowCreateModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { errors, handleSubmit,  mutate, register, token } =
-    useAddSaving();
+  const { errors, handleSubmit, mutate, register, token } = useAddSaving();
   const onSubmit = (value: Isaving) => {
     const data = {
       ...value,
@@ -37,7 +36,8 @@ const AddSaving = ({
             <input
               type="text"
               {...register("name")}
-              className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.name ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"}`}
+              className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900
+              ${errors?.name ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 border-gray-300"}`}
               placeholder="Ví dụ: Quỹ Du Lịch"
             />
             <div className="text-red-500">
@@ -54,7 +54,7 @@ const AddSaving = ({
                 type="number"
                 {...register("currentAmount")}
                 placeholder="0"
-                className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.currentAmount ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"}`}
+                className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.currentAmount ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 border-gray-300"}`}
               />
               <div className="text-red-500">
                 {errors?.currentAmount?.message as string}
@@ -68,7 +68,7 @@ const AddSaving = ({
               <input
                 type="number"
                 {...register("targetAmount")}
-                className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.targetAmount ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"}`}
+                className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.targetAmount ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600": "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 border-gray-300"}`}
                 placeholder="0"
               />
               <div className="text-red-500">
@@ -84,7 +84,8 @@ const AddSaving = ({
             <textarea
               rows={3}
               {...register("description")}
-              className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900 ${errors?.description ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20"}`}
+              className={`w-full rounded-lg border  outline-none transition-colors px-4 py-2.5 text-gray-900
+              ${errors?.description ? "border-red-500 focus:ring-red-500 focus:border-red-500 text-red-600" : "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 border-gray-300"}`}
             />
             <div className="text-red-500">
               {errors?.description?.message as string}
@@ -101,7 +102,8 @@ const AddSaving = ({
             </button>
             <button
               type="submit"
-              className="flex-1 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-2.5 font-semibold text-white shadow-lg transition-all hover:from-green-700 hover:to-emerald-700"
+              className="flex-1 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-2.5 
+              font-semibold text-white shadow-lg transition-all hover:from-green-700 hover:to-emerald-700"
             >
               Tạo Mục Tiêu
             </button>

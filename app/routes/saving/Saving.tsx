@@ -8,11 +8,11 @@ import {
   Wallet,
 } from "lucide-react";
 import { useState } from "react";
-import { type SubmitHandler } from "react-hook-form";
 import type { Isaving } from "~/Types/saving";
 import AddSaving from "./Add/AddSaving";
 import SkeletonSaving from "./SkeletonSaving";
 import useSaving from "./useSaving";
+import UpdateSaving from "./Update.tsx/updateSaving";
 
 function formatCurrency(amount: number) {
   if (amount >= 1000000) {
@@ -54,8 +54,6 @@ export default function Saving() {
 
     setShowUpdateModal(true);
   };
-
-
 
   return isLoading ? (
     <SkeletonSaving />
@@ -333,7 +331,12 @@ export default function Saving() {
 
       {showCreateModal && <AddSaving setShowCreateModal={setShowCreateModal} />}
 
-      {/* {showUpdateModal && <updateSaving />} */}
+      {showUpdateModal && (
+        <UpdateSaving
+          selectedGoal={selectedGoal}
+          setShowUpdateModal={setShowUpdateModal}
+        />
+      )}
     </div>
   );
 }
