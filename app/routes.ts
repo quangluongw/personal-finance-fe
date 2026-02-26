@@ -8,4 +8,5 @@ export default [
   route("transaction", "./routes/transaction/Transaction.tsx"),
   route("history", "./routes/history/History.tsx"),
   route("savings", "./routes/saving/Saving.tsx"),
+  route("dept", "./routes/dept/Dept.tsx"),
 ] satisfies RouteConfig;

@@ -122,7 +122,7 @@ export default function App() {
       <div className="min-h-screen w-full flex antialiased bg-gray-50">
         <Sidebar />
 
-        <div className="flex flex-col flex-1 min-w-0 md:ml-60">
+        <div className="flex flex-col flex-1 min-w-0">
           {/* Header Section */}
 
           <header className="bg-white border-b border-gray-200 sticky top-0 z-20">

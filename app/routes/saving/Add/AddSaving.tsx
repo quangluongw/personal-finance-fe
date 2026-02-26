@@ -48,7 +48,7 @@ const AddSaving = ({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700">
-                Số Tiền Mục Tiêu
+                Số Tiền Hiện tại
               </label>
               <input
                 type="number"
@@ -63,7 +63,7 @@ const AddSaving = ({
 
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700">
-                Số Tiền Hiện Tại
+                Số Tiền Mua Tiêu
               </label>
               <input
                 type="number"
