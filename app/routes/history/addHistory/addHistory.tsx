@@ -2,6 +2,8 @@ import { Input, InputNumber, Modal, Radio, Select } from "antd";
 import type { Caterori } from "~/Types/caterori";
 import useAddHistory from "./useAddHistory";
 import { Controller } from "react-hook-form";
+import useAccount from "~/routes/account/useAccount";
+import type { Account } from "~/Types/account";
 
 const AddHistory = ({
   isModalOpen,
@@ -13,10 +15,12 @@ const AddHistory = ({
   handleOk: any;
   handleCancel: any;
   dataCaterori: Caterori[];
-  setIsModalOpen:any;
+  setIsModalOpen: any;
 }) => {
   const { control, errors, handleSubmit, isPending, onLogin } =
     useAddHistory(setIsModalOpen);
+  const { data, isLoading } = useAccount();
+
   return (
     <Modal
       title="Thêm giao dịch"
@@ -105,7 +109,31 @@ const AddHistory = ({
             </span>
           )}
         </div>
+        <div className="flex flex-col gap-1">
+          <label>Tài khoản thanh toán</label>
 
+          <Controller
+            name="accPay"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Chọn tài khoản"
+                className={`${errors?.accPay && "!border-[1px] !border-red-500"}`}
+                loading={isLoading}
+                options={data?.accounts?.map((account: Account) => ({
+                  value: account._id,
+                  label: `${account.bankName} `,
+                }))}
+              />
+            )}
+          />
+          {errors?.accPay && (
+            <span className="text-red-500 text-sm">
+              {errors?.accPay.message as string}
+            </span>
+          )}
+        </div>
         {/* Mô tả */}
         <div className="flex flex-col gap-1">
           <label>Mô tả</label>

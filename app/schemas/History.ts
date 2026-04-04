@@ -25,4 +25,12 @@ export const transactionSchema = Joi.object({
     "string.min": "Nội dung phải hơn 5 ký tự",
     "any.required": "Nội dung là bắt buộc",
   }),
+  accPay: Joi.string()
+    .required()
+    .pattern(/^[a-fA-F0-9]{24}$/)
+    .messages({
+      "string.empty": "Vui lòng chọn tài khoản thanh toán",
+      "any.required": "Vui lòng chọn tài khoản thanh toán",
+      "string.pattern.base": "Tài khoản thanh toán không hợp lệ",
+    }),
 });

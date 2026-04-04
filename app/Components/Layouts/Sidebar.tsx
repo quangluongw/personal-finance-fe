@@ -6,7 +6,6 @@ import {
   LogOut,
   Receipt,
   Sparkles,
-  Target,
   Wallet,
 } from "lucide-react";
 import { useState } from "react";
@@ -18,25 +17,25 @@ import useUserInfoAction from "./user-info/useUserInfoAction";
 // }
 
 const Sidebar = () => {
-    const { data } = useUserInfoAction();
+  const { data } = useUserInfoAction();
   const [collapsed, setCollapsed] = useState(false);
   const { pathname } = useLocation();
   const menuItems = [
     { icon: Home, label: "Thống kê", href: "/", key: " ", mobile: true },
     {
       icon: Receipt,
-      label: "Thu nhập",
-      href: "/income",
-      key: "thu-nhap",
+      label: "Tài khoản",
+      href: "/account",
+      key: "tai-khoan",
       mobile: false,
     },
-    {
-      icon: Target,
-      label: "Ngân sách",
-      href: "/budget",
-      key: "ngan-sach",
-      mobile: false,
-    },
+    // {
+    //   icon: Target,
+    //   label: "Ngân sách",
+    //   href: "/budget",
+    //   key: "ngan-sach",
+    //   mobile: false,
+    // },
     {
       icon: BookOpen,
       label: "Sổ nợ",
@@ -127,7 +126,6 @@ const Sidebar = () => {
                       <span className="relative flex-1 text-left text-sm font-semibold">
                         {item.label}
                       </span>
-
                     </>
                   )}
                 </button>

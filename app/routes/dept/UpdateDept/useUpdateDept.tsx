@@ -1,34 +1,30 @@
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
-import { updateSaving } from "~/Services/saving.service";
-import type { Isaving } from "~/Types/saving";
+import { updateDept } from "~/Services/dept.service";
+import type { IDeptForm } from "~/Types/dept";
+import useAuthentication from "~/hook/useAuthentication";
 import useSendMessage from "~/hook/useSendMessage";
-import { savingSchema } from "~/schemas/Saving";
+import { deptUpdateSchema } from "~/schemas/Dept";
 
-const useUpdateSaving = (
-  setShowUpdateModal: Dispatch<SetStateAction<boolean>>
-) => {
+const useUpdateDept = () => {
+  const { token } = useAuthentication();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    getValues,
-    setValue,
-  } = useForm<Isaving>({
-    resolver: joiResolver(savingSchema),
+  } = useForm<IDeptForm>({
+    resolver: joiResolver(deptUpdateSchema),
   });
   const queryClient = useQueryClient();
   const { sendMessage } = useSendMessage();
   const { mutate } = useMutation({
-      mutationFn: ({ id, data }: { id: string; data: Isaving }) =>
-        updateSaving(id, data),
+    mutationFn: ({ id, data }: { id: string; data: IDeptForm }) =>
+      updateDept(id, data),
     onSuccess: (response) => {
       sendMessage("success", response.message);
-      setShowUpdateModal(false);
-      queryClient.invalidateQueries({ queryKey: ["saving"] });
+      queryClient.invalidateQueries({ queryKey: ["dept"] });
       reset();
     },
     onError: (errors) => {
@@ -40,11 +36,9 @@ const useUpdateSaving = (
     handleSubmit,
     errors,
     mutate,
-
-    reset,
-    getValues,
-    setValue,
+    token,
+    reset
   };
 };
 
-export default useUpdateSaving;
+export default useUpdateDept;

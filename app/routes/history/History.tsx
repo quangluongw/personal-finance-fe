@@ -1,11 +1,18 @@
+import {
+  CarOutlined,
+  CoffeeOutlined,
+  FileTextOutlined,
+  PlayCircleOutlined,
+  ShoppingCartOutlined,
+  WalletOutlined,
+} from "@ant-design/icons";
 import { DatePicker, Input, Select } from "antd";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import {
-  ArrowDownLeft,
-  ArrowUpRight,
-  Calendar,
   PlusCircle,
+  Search,
+  Tag,
   TrendingDown,
   TrendingUp,
   Wallet,
@@ -17,8 +24,8 @@ import type { Transaction } from "~/Types/transaction";
 import { formatCurrency } from "~/lib/format";
 import SkeletonHistory from "./SkeletonHistory";
 
-import useHistory from "./useHistory";
 import AddHistory from "./addHistory/addHistory";
+import useHistory from "./useHistory";
 const { MonthPicker } = DatePicker;
 
 const History = () => {
@@ -71,6 +78,15 @@ const History = () => {
 
   const disabledDate = (current: Dayjs) => {
     return current && current > dayjs();
+  };
+
+  const categoryIcons: Record<string, React.ReactNode> = {
+    "ăn uống": <CoffeeOutlined style={{ fontSize: 20 }} />,
+    "đi lại": <CarOutlined style={{ fontSize: 20 }} />,
+    "mua sắm": <ShoppingCartOutlined style={{ fontSize: 20 }} />,
+    "giải trí": <PlayCircleOutlined style={{ fontSize: 20 }} />,
+    "hóa đơn": <FileTextOutlined style={{ fontSize: 20 }} />,
+    lương: <WalletOutlined style={{ fontSize: 20 }} />,
   };
 
   return isLoading || istotalTransactionLoading || isCateroriLoading ? (
@@ -280,7 +296,7 @@ const History = () => {
             </div>
           </div>
 
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             {data?.transactions?.map((transaction: Transaction) => (
               <div
                 key={transaction._id}
@@ -343,7 +359,6 @@ const History = () => {
                   </div>
                 </div>
 
-                {/* Hover effect gradient */}
                 <div
                   className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none ${
                     transaction.transactionType === "income"
@@ -353,6 +368,103 @@ const History = () => {
                 />
               </div>
             ))}
+          </div> */}
+          <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl shadow-emerald-900/5 border border-emerald-100 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50/50 border-b border-gray-100">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Giao dịch
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Danh mục
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Phương thức
+                    </th>
+                    <th className="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Số tiền
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {data.transactions.map((transaction: Transaction) => {
+                    const Icon =
+                      categoryIcons[transaction.categoryId.name.toLowerCase()];
+                    return (
+                      <tr
+                        key={transaction._id}
+                        // onClick={() => setSelectedTransaction(transaction)}
+                        className="hover:bg-emerald-50/30 transition-colors group cursor-pointer"
+                      >
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-4">
+                            <div
+                              className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-sm ${
+                                transaction.transactionType === "income"
+                                  ? "bg-emerald-100 text-emerald-600"
+                                  : "bg-orange-100 text-orange-600"
+                              }`}
+                            >
+                              {Icon}
+                            </div>
+                            <div>
+                              <p className="font-semibold text-gray-800">
+                                {transaction.description}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                {dayjs(transaction.createdAt).format(
+                                  "DD/MM/YYYY HH:mm:ss"
+                                )}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
+                            <Tag className="w-3.5 h-3.5" />
+                            {transaction.categoryId.name}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="text-sm text-gray-600 font-medium">
+                            {transaction.accPay.name}
+                          </span>
+                        </td>
+
+                        <td className="px-6 py-4 text-right">
+                          <span
+                            className={`text-base font-bold ${
+                              transaction.transactionType === "income"
+                                ? "text-emerald-600"
+                                : "text-orange-600"
+                            }`}
+                          >
+                            {transaction.transactionType === "income"
+                              ? "+"
+                              : "-"}
+                            {transaction.amount.toLocaleString("vi-VN")} đ
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {data.transactions.length === 0 && (
+              <div className="text-center py-16">
+                <Search className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-600 mb-2">
+                  Không tìm thấy giao dịch
+                </h3>
+                <p className="text-gray-500">
+                  Thử thay đổi bộ lọc hoặc tìm kiếm với từ khóa khác
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

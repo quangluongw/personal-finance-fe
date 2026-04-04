@@ -7,6 +7,10 @@ export interface Transaction {
     _id: string;
     name: string;
   };
+  accPay: {
+    _id: string;
+    name: string;
+  };
   createdAt: string;
 }
 
@@ -16,4 +20,5 @@ export interface TransactionForm {
   transactionType: string;
   amount: number;
   description?: string;
+  accPay: string;
 }
