@@ -9,7 +9,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useUserInfoAction from "./user-info/useUserInfoAction";
 
 // interface SidebarProps {
@@ -17,6 +17,7 @@ import useUserInfoAction from "./user-info/useUserInfoAction";
 // }
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const { data } = useUserInfoAction();
   const [collapsed, setCollapsed] = useState(false);
   const { pathname } = useLocation();
@@ -27,7 +28,7 @@ const Sidebar = () => {
       label: "Tài khoản",
       href: "/account",
       key: "tai-khoan",
-      mobile: false,
+      mobile: true,
     },
     // {
     //   icon: Target,
@@ -41,7 +42,7 @@ const Sidebar = () => {
       label: "Sổ nợ",
       href: "/dept",
       key: "so-no",
-      mobile: false,
+      mobile: true,
     },
     {
       icon: Wallet,
@@ -58,6 +59,11 @@ const Sidebar = () => {
       mobile: true,
     },
   ];
+
+const logOut = () => {
+  sessionStorage.clear();
+   navigate("/login");
+};
 
   return (
     <>
@@ -159,7 +165,9 @@ const Sidebar = () => {
             )}
           </div>
           {!collapsed && (
-            <button className="w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-300 hover:text-red-200 transition-all duration-300 group">
+            <button className="w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl
+             bg-red-500/10 hover:bg-red-500/20 text-red-300 hover:text-red-200 transition-all
+              duration-300 group" onClick={logOut}>
               <LogOut className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium">Đăng xuất</span>
             </button>

@@ -31,6 +31,8 @@ const useAddHistory = (setIsModalOpen: (v: boolean) => void) => {
       reset();
     },
     onError: (errors) => {
+      console.log(errors);
+      
       sendMessage("error", errors.message);
     },
   });

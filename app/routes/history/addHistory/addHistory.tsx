@@ -123,7 +123,7 @@ const AddHistory = ({
                 loading={isLoading}
                 options={data?.accounts?.map((account: Account) => ({
                   value: account._id,
-                  label: `${account.bankName} `,
+                  label: `${account.name} `,
                 }))}
               />
             )}

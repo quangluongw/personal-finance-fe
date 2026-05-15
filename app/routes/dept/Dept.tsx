@@ -93,19 +93,19 @@ const DebtManagement = () => {
               <span className="text-emerald-50 font-medium">Đang cho vay</span>
             </div>
             <div className="text-3xl font-bold mb-1">
-              {data?.summary?.borrow.total.toLocaleString("vi-VN")} đ
+              {data?.summary?.lend.total.toLocaleString("vi-VN")} đ
             </div>
             <div className="h-1 w-full bg-emerald-800/30 rounded-full mt-4 overflow-hidden">
               <div
                 className="h-full bg-white rounded-full"
-                style={{ width: `${data?.summary?.borrow?.percent || 0}%` }}
+                style={{ width: `${data?.summary?.lend?.percent || 0}%` }}
               ></div>
             </div>
             <div className="text-emerald-100 text-xs mt-2 flex justify-between">
               <span>
-                Đã thu: {data?.summary?.borrow?.paid.toLocaleString("vi-VN")} đ
+                Đã thu: {data?.summary?.lend?.paid.toLocaleString("vi-VN")} đ
               </span>
-              <span>{data?.summary?.borrow?.percent}%</span>
+              <span>{data?.summary?.lend?.percent}%</span>
             </div>
           </div>
         </div>
@@ -122,19 +122,19 @@ const DebtManagement = () => {
               <span className="text-orange-50 font-medium">Đang nợ</span>
             </div>
             <div className="text-3xl font-bold mb-1">
-              {data?.summary?.lend.total.toLocaleString("vi-VN")} đ
+              {data?.summary?.borrow.total.toLocaleString("vi-VN")} đ
             </div>
             <div className="h-1 w-full bg-emerald-800/30 rounded-full mt-4 overflow-hidden">
               <div
                 className="h-full bg-white rounded-full"
-                style={{ width: `${data?.summary?.lend?.percent || 0}%` }}
+                style={{ width: `${data?.summary?.borrow?.percent || 0}%` }}
               ></div>
             </div>
             <div className="text-orange-100 text-xs mt-2 flex justify-between">
               <span>
-                Đã trả: {data?.summary?.lend.paid.toLocaleString("vi-VN")} đ
+                Đã trả: {data?.summary?.borrow.paid.toLocaleString("vi-VN")} đ
               </span>
-              <span>{data?.summary?.lend?.percent}%</span>
+              <span>{data?.summary?.borrow?.percent}%</span>
             </div>
           </div>
         </div>
