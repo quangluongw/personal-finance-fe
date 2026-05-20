@@ -1,10 +1,21 @@
-export const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(amount);
-};
+export const formatCurrency = (amount: number): string => {
+  if (amount >= 1_000_000_000) {
+    const value = amount / 1_000_000_000;
+    return `${value % 1 === 0 ? value : value.toFixed(1)} B`;
+  }
 
+  if (amount >= 1_000_000) {
+    const value = amount / 1_000_000;
+    return `${value % 1 === 0 ? value : value.toFixed(1)} M`;
+  }
+
+  if (amount >= 1_000) {
+    const value = amount / 1_000;
+    return `${value % 1 === 0 ? value : value.toFixed(1)} K`;
+  }
+
+  return `${amount} ₫`;
+};
 export const formatVND = (value: string) => {
   const onlyNumber = value.replace(/\D/g, "");
   return onlyNumber ? Number(onlyNumber).toLocaleString("vi-VN") : "";

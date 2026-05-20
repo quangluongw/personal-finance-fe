@@ -34,3 +34,4 @@ export interface AccountFormValues {
   // account type
   type: "bank" | "wallet" | "cash";
 }
+export type AccountType = "bank" | "wallet" | "cash";

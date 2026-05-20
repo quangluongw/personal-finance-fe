@@ -12,13 +12,19 @@ const useAccount = () => {
     queryKey: ["account"],
     queryFn: () => getAccount(token?.id as string),
   });
+
+
   const deleteMutation = useMutation({
     mutationFn: (id:string) => deleteAccount(id),
 
     onSuccess: (response) => {
       sendMessage("success", response.message);
       queryClient.invalidateQueries({ queryKey: ["account"] });
+      queryClient.invalidateQueries({ queryKey: ["history"] });
     },
+    onError: (error) => {
+      sendMessage("error", error.message);
+    }
   });
   return {
     data,

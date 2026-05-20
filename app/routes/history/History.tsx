@@ -429,7 +429,7 @@ const History = () => {
                         </td>
                         <td className="px-6 py-4">
                           <span className="text-sm text-gray-600 font-medium">
-                            {transaction.accPay.name}
+                            {transaction?.accPay?.name}
                           </span>
                         </td>
 

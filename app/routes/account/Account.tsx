@@ -22,190 +22,161 @@ import { useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import type { Account } from "~/Types/account";
 import { formatCurrency, parseISOToVN } from "~/lib/format";
+import {
+  ACCOUNT_TYPE_COLORS,
+  copyToClipboard,
+  getTypeLabel,
+} from "~/utils/acc";
 import AddAccount from "./Add/AddAccount";
 import AccountsPageSkeleton from "./accountSkeleton";
+import DetailAcc from "./detailAccount";
 import useAccount from "./useAccount";
 
-type AccountType = "bank" | "wallet" | "cash";
-
+// ─── Component ────────────────────────────────────────────────────────────────
 const AccountsPage = () => {
-  const { data, isLoading, deleteMutation } = useAccount();
+  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(
+    null
+  );
   const [showBalance, setShowBalance] = useState(true);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState("");
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const getTypeLabel = (type: AccountType) => {
-    switch (type) {
-      case "bank":
-        return "Ngân hàng";
-      case "wallet":
-        return "Ví điện tử";
-      case "cash":
-        return "Tiền mặt";
-    }
-  };
 
-  const ACCOUNT_TYPE_COLORS: Record<string, string> = {
-    bank: "#3b82f6", // blue-500
-    wallet: "#f59e0b", // amber-500
-    cash: "#10b981", // emerald-500
-  };
+  const { data, isLoading, deleteMutation } = useAccount();
 
-  const handleCopyAccountNumber = (accountNumber: string) => {
-    navigator.clipboard.writeText(accountNumber.replace(/\s/g, ""));
-    setCopiedId(accountNumber);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
-
-  const renderCompactAccountCard = (account: Account) => {
-    return (
-      <div
-        key={account._id}
-        className="bg-white rounded-2xl border border-gray-200 hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 group"
-      >
-        <div className="p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div
-                className={`w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center text-white`}
-              >
-                <img
-                  src={
-                    account.icon ||
-                    "https://img.pikbest.com/element_our/20230221/bg/ebab41b9c1ab9.png!w700wp"
-                  }
-                  className="w-10 h-10"
-                />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="font-bold text-gray-800">{account.name}</h3>
-                  {account.isPrimary && (
-                    <Star
-                      className="w-4 h-4 text-amber-500"
-                      fill="currentColor"
-                    />
-                  )}
-                </div>
-                <p className="text-sm text-gray-500">
-                  {getTypeLabel(account.type)}
-                </p>
-              </div>
+  const renderCompactAccountCard = (account: Account) => (
+    <div
+      key={account._id}
+      className="bg-white rounded-2xl border border-gray-200 hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 group"
+    >
+      <div className="p-5">
+        {/* Card Header */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center text-white">
+              <img
+                src={
+                  account.icon ||
+                  "https://img.pikbest.com/element_our/20230221/bg/ebab41b9c1ab9.png!w700wp"
+                }
+                className="w-10 h-10"
+                alt=""
+              />
             </div>
-
-            <div className="relative group/menu">
-              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <MoreVertical className="w-5 h-5 text-gray-400" />
-              </button>
-              {/* Dropdown Menu */}
-              <div
-                className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl shadow-xl border 
-              border-gray-200 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible
-              transition-all z-10"
-              >
-                <button
-                  // onClick={() => setSelectedAccount(account)}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left transition-colors 
-                  first:rounded-t-xl"
-                >
-                  <Eye className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm font-medium text-gray-700">
-                    Xem chi tiết
-                  </span>
-                </button>
-                <button
-                  // onClick={() => handleEdit(account)}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left transition-colors"
-                >
-                  <Edit3 className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium text-gray-700">
-                    Chỉnh sửa
-                  </span>
-                </button>
-                <button
-                  onClick={() => deleteMutation.mutate(account?._id as string)}
-                  disabled={deleteMutation.isPending}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-left transition-colors 
-                            last:rounded-b-xl border-t border-gray-100 disabled:opacity-50"
-                >
-                  <Trash2 className="w-4 h-4 text-red-600" />
-                  <span className="text-sm font-medium text-red-600">
-                    {deleteMutation.isPending ? "Đang xóa..." : "Xóa tài khoản"}
-                  </span>
-                </button>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-gray-800">{account.name}</h3>
+                {account.isPrimary && (
+                  <Star
+                    className="w-4 h-4 text-amber-500"
+                    fill="currentColor"
+                  />
+                )}
               </div>
+              <p className="text-sm text-gray-500">
+                {getTypeLabel(account.type)}
+              </p>
             </div>
           </div>
 
-          <div className="space-y-3">
-            <div>
-              <p className="text-xs text-gray-500 mb-1">Số dư</p>
-              <p
-                className={`text-2xl font-bold ${account.balance >= 0 ? "text-gray-800" : "text-red-600"}`}
+          {/* Dropdown Menu */}
+          <div className="relative group/menu">
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <MoreVertical className="w-5 h-5 text-gray-400" />
+            </button>
+            <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl shadow-xl border border-gray-200 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all z-10">
+              <button
+                onClick={() => setSelectedAccountId(account._id)}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left transition-colors first:rounded-t-xl"
               >
-                {showBalance
-                  ? `${account.balance.toLocaleString("vi-VN")} đ`
-                  : "••••••••"}
-              </p>
-            </div>
-
-            {account.accountNumber && (
-              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                <p className="text-sm text-gray-500 font-mono">
-                  {account.accountNumber}
-                </p>
-                <button
-                  onClick={() =>
-                    handleCopyAccountNumber(account.accountNumber!)
-                  }
-                  className="p-1.5 hover:bg-gray-100 rounded transition-colors"
-                >
-                  {copiedId === account.accountNumber ? (
-                    <CheckCircle className="w-4 h-4 text-emerald-600" />
-                  ) : (
-                    <Copy className="w-4 h-4 text-gray-400" />
-                  )}
-                </button>
-              </div>
-            )}
-
-            <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-              <div className="flex items-center gap-2">
-                {account.change >= 0 ? (
-                  <div className="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 rounded-lg">
-                    <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
-                    <span className="text-xs font-semibold text-emerald-600">
-                      +{account.change}%
-                    </span>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-1.5 px-2 py-1 bg-red-50 rounded-lg">
-                    <TrendingDown className="w-3.5 h-3.5 text-red-600" />
-                    <span className="text-xs font-semibold text-red-600">
-                      {account.change}%
-                    </span>
-                  </div>
-                )}
-              </div>
-              {account.lastTransaction && (
-                <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>{parseISOToVN(account.lastTransaction)}</span>
-                </div>
-              )}
+                <Eye className="w-4 h-4 text-gray-600" />
+                <span className="text-sm font-medium text-gray-700">
+                  Xem chi tiết
+                </span>
+              </button>
+              <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left transition-colors">
+                <Edit3 className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-medium text-gray-700">
+                  Chỉnh sửa
+                </span>
+              </button>
+              <button
+                onClick={() => deleteMutation.mutate(account._id as string)}
+                disabled={deleteMutation.isPending}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-left transition-colors last:rounded-b-xl border-t border-gray-100 disabled:opacity-50"
+              >
+                <Trash2 className="w-4 h-4 text-red-600" />
+                <span className="text-sm font-medium text-red-600">
+                  {deleteMutation.isPending ? "Đang xóa..." : "Xóa tài khoản"}
+                </span>
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    );
-  };
 
-  if (isLoading) {
-    return <AccountsPageSkeleton />;
-  }
+        {/* Card Body */}
+        <div className="space-y-3">
+          <div>
+            <p className="text-xs text-gray-500 mb-1">Số dư</p>
+            <p
+              className={`text-2xl font-bold ${account.balance >= 0 ? "text-gray-800" : "text-red-600"}`}
+            >
+              {showBalance ? formatCurrency(account.balance) : "••••••••"}
+            </p>
+          </div>
+
+          {account.accountNumber && (
+            <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+              <p className="text-sm text-gray-500 font-mono">
+                {account.accountNumber}
+              </p>
+              <button
+                onClick={() =>
+                  copyToClipboard(account.accountNumber!, setCopiedId)
+                }
+                className="p-1.5 hover:bg-gray-100 rounded transition-colors"
+              >
+                {copiedId === account.accountNumber ? (
+                  <CheckCircle className="w-4 h-4 text-emerald-600" />
+                ) : (
+                  <Copy className="w-4 h-4 text-gray-400" />
+                )}
+              </button>
+            </div>
+          )}
+
+          <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+            {account.change >= 0 ? (
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 rounded-lg">
+                <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-xs font-semibold text-emerald-600">
+                  +{account.change}%
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-red-50 rounded-lg">
+                <TrendingDown className="w-3.5 h-3.5 text-red-600" />
+                <span className="text-xs font-semibold text-red-600">
+                  {account.change}%
+                </span>
+              </div>
+            )}
+            {account.lastTransaction && (
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                <Clock className="w-3.5 h-3.5" />
+                <span>{parseISOToVN(account.lastTransaction)}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (isLoading) return <AccountsPageSkeleton />;
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-10">
-      {/* Header */}
+      {/* ── Header ── */}
       <div className="flex flex-col gap-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -233,8 +204,7 @@ const AccountsPage = () => {
             </button>
             <button
               onClick={() => setShowAddDialog(true)}
-              className="bg-gradient-to-r from-emerald-600 to-green-600 text-white px-4 py-2.5 rounded-xl 
-              hover:shadow-lg hover:shadow-emerald-500/30 font-medium transition-all flex items-center gap-2"
+              className="bg-gradient-to-r from-emerald-600 to-green-600 text-white px-4 py-2.5 rounded-xl hover:shadow-lg hover:shadow-emerald-500/30 font-medium transition-all flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               <span>Thêm mới</span>
@@ -243,13 +213,9 @@ const AccountsPage = () => {
         </div>
       </div>
 
-      {/* Overview Stats */}
+      {/* ── Overview Stats ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Tổng tài sản */}
-        <div
-          className="bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-6 text-white relative
-         overflow-hidden"
-        >
+        <div className="bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-6 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 opacity-10">
             <Wallet className="w-24 h-24" />
           </div>
@@ -259,7 +225,7 @@ const AccountsPage = () => {
             </p>
             <p className="text-3xl font-black mb-2">
               {showBalance
-                ? `${formatCurrency(data?.summary.totalAssets)}`
+                ? formatCurrency(data?.summary.totalAssets)
                 : "•••••"}
             </p>
             <div className="flex items-center gap-1 text-sm">
@@ -272,43 +238,39 @@ const AccountsPage = () => {
           </div>
         </div>
 
-        <div
-          className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-emerald-500 
-        hover:shadow-lg hover:shadow-emerald-500/10 transition-all"
-        >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2.5 bg-emerald-100 rounded-xl">
-              <ArrowDownLeft className="w-5 h-5 text-emerald-600" />
+        {[
+          {
+            icon: <ArrowDownLeft className="w-5 h-5 text-emerald-600" />,
+            bg: "bg-emerald-100",
+            label: "Tiền vào",
+            value: data?.summary.monthlyIncome,
+            color: "text-emerald-600",
+            hover: "hover:border-emerald-500 hover:shadow-emerald-500/10",
+          },
+          {
+            icon: <ArrowUpRight className="w-5 h-5 text-orange-600" />,
+            bg: "bg-orange-100",
+            label: "Tiền ra",
+            value: data?.summary.monthlyExpense,
+            color: "text-orange-600",
+            hover: "hover:border-orange-500 hover:shadow-orange-500/10",
+          },
+        ].map(({ icon, bg, label, value, color, hover }) => (
+          <div
+            key={label}
+            className={`bg-white rounded-2xl p-6 border border-gray-200 ${hover} hover:shadow-lg transition-all`}
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className={`p-2.5 ${bg} rounded-xl`}>{icon}</div>
+              <p className="text-gray-600 font-medium">{label}</p>
             </div>
-            <p className="text-gray-600 font-medium">Tiền vào</p>
+            <p className={`text-2xl font-bold ${color} mb-1`}>
+              {showBalance ? formatCurrency(value) : "•••••"}
+            </p>
+            <p className="text-sm text-gray-500">Tháng này</p>
           </div>
-          <p className="text-2xl font-bold text-emerald-600 mb-1">
-            {showBalance
-              ? formatCurrency(data?.summary.monthlyIncome)
-              : "•••••"}
-          </p>
-          <p className="text-sm text-gray-500">Tháng này</p>
-        </div>
+        ))}
 
-        <div
-          className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-orange-500 
-        hover:shadow-lg hover:shadow-orange-500/10 transition-all"
-        >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2.5 bg-orange-100 rounded-xl">
-              <ArrowUpRight className="w-5 h-5 text-orange-600" />
-            </div>
-            <p className="text-gray-600 font-medium">Tiền ra</p>
-          </div>
-          <p className="text-2xl font-bold text-orange-600 mb-1">
-            {showBalance
-              ? formatCurrency(data?.summary.monthlyExpense)
-              : "•••••"}
-          </p>
-          <p className="text-sm text-gray-500">Tháng này</p>
-        </div>
-
-        {/* Giao dịch */}
         <div className="bg-white rounded-2xl p-6 border border-gray-200">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2.5 bg-amber-100 rounded-xl">
@@ -323,9 +285,9 @@ const AccountsPage = () => {
         </div>
       </div>
 
-      {/* Main Content - 2 Columns */}
+      {/* ── Main Content ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Account List */}
+        {/* Account List */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-gray-800">
@@ -355,7 +317,7 @@ const AccountsPage = () => {
           )}
         </div>
 
-        {/* Right Column - Charts & Activity */}
+        {/* Asset Distribution */}
         <div className="space-y-6 mt-10">
           <div className="bg-white rounded-2xl border border-gray-200 p-6">
             <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
@@ -364,7 +326,6 @@ const AccountsPage = () => {
             </h3>
 
             {!data?.assetDistribution?.length ? (
-              // ===== Empty state =====
               <div className="flex flex-col items-center justify-center py-10 text-center">
                 <PieChartIcon className="w-10 h-10 text-gray-300 mb-3" />
                 <p className="text-gray-500 font-medium">
@@ -375,7 +336,6 @@ const AccountsPage = () => {
                 </p>
               </div>
             ) : (
-              // ===== Chart =====
               <>
                 <ResponsiveContainer width="100%" height={200}>
                   <PieChart>
@@ -398,9 +358,9 @@ const AccountsPage = () => {
                       )}
                     </Pie>
                     <Tooltip
-                      formatter={(value, _name, props) => [
-                        `${((value as number) / 1000000).toFixed(1)}M đ`,
-                        props.payload?.type,
+                      formatter={(value: any, _name, props) => [
+                        formatCurrency(value) + " đ",
+                        getTypeLabel(props.payload?.type),
                       ]}
                       contentStyle={{
                         backgroundColor: "white",
@@ -440,7 +400,12 @@ const AccountsPage = () => {
           </div>
         </div>
       </div>
+
       <AddAccount onOpenChange={setShowAddDialog} open={showAddDialog} />
+      <DetailAcc
+        selectedAccountId={selectedAccountId}
+        setSelectedAccountId={setSelectedAccountId}
+      />
     </div>
   );
 };
