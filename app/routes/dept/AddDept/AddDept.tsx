@@ -81,7 +81,7 @@ const AddDept = ({
               <input
                 type="text"
                 {...register("person")}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-black text-black"
               />
               {errors.person && (
                 <p className="text-red-500 text-xs mt-1">
@@ -101,7 +101,7 @@ const AddDept = ({
               <input
                 type="number"
                 {...register("amount")}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-black "
               />
               {errors.amount && (
                 <p className="text-red-500 text-xs mt-1">
@@ -123,7 +123,7 @@ const AddDept = ({
                 {...register("paidAmount", {
                   setValueAs: (v) => (v === "" ? null : Number(v)),
                 })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-black"
               />
               {errors.paidAmount && (
                 <p className="text-red-500 text-xs mt-1">
@@ -143,7 +143,7 @@ const AddDept = ({
               <input
                 type="text"
                 {...register("description")}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-black"
               />
               {errors.description && (
                 <p className="text-red-500 text-xs mt-1">

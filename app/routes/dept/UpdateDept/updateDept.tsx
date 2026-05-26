@@ -52,7 +52,7 @@ const UpdateDept = ({
                 <input
                   type="number"
                   {...register("amount")}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-black"
                 />
                 {errors.amount && (
                   <p className="text-red-500 text-xs mt-1">
@@ -69,7 +69,7 @@ const UpdateDept = ({
                 <label className="text-sm text-gray-500">Ghi chú</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-black"
                 />
               </div>
             </div>

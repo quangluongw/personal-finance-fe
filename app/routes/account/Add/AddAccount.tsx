@@ -349,7 +349,7 @@ const AddAccount = ({ open, onOpenChange }: AddAccountDialogProps) => {
                               ? "VD: Momo chính"
                               : "VD: Ví cá nhân"
                         }
-                        className="w-full px-4 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-base font-semibold bg-gray-50 focus:bg-white "
+                        className="w-full px-4 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-base font-semibold bg-gray-50 focus:bg-white text-black"
                       />
                       {errors.name && (
                         <p className="mt-2 text-sm text-red-500 font-medium">
@@ -376,7 +376,7 @@ const AddAccount = ({ open, onOpenChange }: AddAccountDialogProps) => {
                           placeholder={
                             accountType === "bank" ? "1234567890" : "0912345678"
                           }
-                          className="w-full px-4 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all font-mono font-semibold bg-gray-50 focus:bg-white"
+                          className="w-full px-4 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all font-mono font-semibold bg-gray-50 focus:bg-white text-black"
                         />
                         {errors.accountNumber && (
                           <p className="mt-2 text-sm text-red-500 font-medium">
@@ -412,7 +412,7 @@ const AddAccount = ({ open, onOpenChange }: AddAccountDialogProps) => {
                             },
                           })}
                           placeholder="0"
-                          className="w-full px-6 py-5 pr-14 border-2 border-emerald-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-right text-3xl font-black bg-white"
+                          className="w-full px-6 py-5 pr-14 border-2 border-emerald-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-right text-3xl font-black bg-white text-black"
                         />
                         <span
                           className="absolute right-6 top-1/2 -translate-y-1/2 text-emerald-600 font-bold
