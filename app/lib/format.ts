@@ -21,7 +21,7 @@ export const formatVND = (value: string) => {
   return onlyNumber ? Number(onlyNumber).toLocaleString("vi-VN") : "";
 };
 
-export function parseISOToVN(isoString: string): string {
+export function parseISOToVN(isoString: any): any {
   const date = new Date(isoString);
   if (isNaN(date.getTime())) return "";
 

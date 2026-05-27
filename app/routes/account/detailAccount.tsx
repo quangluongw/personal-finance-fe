@@ -62,7 +62,8 @@ const DetailAcc = ({
             <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
           </div>
         ) : detailAcc ? (
-          <>
+            <>
+              
             {/* ── Header ── */}
             <div className="h-32 -mx-6 -mt-6 mb-6 bg-gradient-to-br from-emerald-500 to-teal-600 relative overflow-hidden ">
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />

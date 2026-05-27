@@ -4,7 +4,6 @@ import {
   CheckCircle,
   Clock,
   Copy,
-  Edit3,
   Eye,
   EyeOff,
   MoreVertical,
@@ -18,7 +17,7 @@ import {
   Wallet,
   Zap,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import type { Account } from "~/Types/account";
 import { formatCurrency, parseISOToVN } from "~/lib/format";
@@ -32,7 +31,6 @@ import AccountsPageSkeleton from "./accountSkeleton";
 import DetailAcc from "./detailAccount";
 import useAccount from "./useAccount";
 
-// ─── Component ────────────────────────────────────────────────────────────────
 const AccountsPage = () => {
   const [selectedAccountId, setSelectedAccountId] = useState<string | null>(
     null
@@ -40,7 +38,17 @@ const AccountsPage = () => {
   const [showBalance, setShowBalance] = useState(true);
   const [copiedId, setCopiedId] = useState("");
   const [showAddDialog, setShowAddDialog] = useState(false);
-
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpenMenuId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   const { data, isLoading, deleteMutation } = useAccount();
 
   const renderCompactAccountCard = (account: Account) => (
@@ -79,37 +87,46 @@ const AccountsPage = () => {
           </div>
 
           {/* Dropdown Menu */}
-          <div className="relative group/menu">
-            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <div className="relative" ref={menuRef}>
+            <button
+              onClick={() =>
+                setOpenMenuId(openMenuId === account._id ? null : account._id)
+              }
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
               <MoreVertical className="w-5 h-5 text-gray-400" />
             </button>
-            <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl shadow-xl border border-gray-200 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all z-10">
-              <button
-                onClick={() => setSelectedAccountId(account._id)}
-                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left transition-colors first:rounded-t-xl"
-              >
-                <Eye className="w-4 h-4 text-gray-600" />
-                <span className="text-sm font-medium text-gray-700">
-                  Xem chi tiết
-                </span>
-              </button>
-              <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left transition-colors">
-                <Edit3 className="w-4 h-4 text-blue-600" />
-                <span className="text-sm font-medium text-gray-700">
-                  Chỉnh sửa
-                </span>
-              </button>
-              <button
-                onClick={() => deleteMutation.mutate(account._id as string)}
-                disabled={deleteMutation.isPending}
-                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-left transition-colors last:rounded-b-xl border-t border-gray-100 disabled:opacity-50"
-              >
-                <Trash2 className="w-4 h-4 text-red-600" />
-                <span className="text-sm font-medium text-red-600">
-                  {deleteMutation.isPending ? "Đang xóa..." : "Xóa tài khoản"}
-                </span>
-              </button>
-            </div>
+
+            {openMenuId === account._id && (
+              <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl shadow-xl border border-gray-200 z-10 animate-menu-in">
+                <button
+                  onClick={() => {
+                    setSelectedAccountId(account._id);
+                    setOpenMenuId(null);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-left transition-colors first:rounded-t-xl"
+                >
+                  <Eye className="w-4 h-4 text-gray-600" />
+                  <span className="text-sm font-medium text-gray-700">
+                    Xem chi tiết
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    deleteMutation.mutate(account._id as string);
+                    setOpenMenuId(null);
+                  }}
+                  disabled={deleteMutation.isPending}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-left transition-colors last:rounded-b-xl border-t border-gray-100 disabled:opacity-50"
+                >
+                  <Trash2 className="w-4 h-4 text-red-600" />
+                  <span className="text-sm font-medium text-red-600">
+                    {deleteMutation.isPending ? "Đang xóa..." : "Xóa tài khoản"}
+                  </span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
