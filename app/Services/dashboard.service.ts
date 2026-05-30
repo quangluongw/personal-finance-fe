@@ -1,9 +1,11 @@
-// dashboard.service.ts
 import { apiRequest } from "./apiService.service";
 
 export const Dashboard = async (
   id: string,
-  type: "week" | "month" | "year" = "month"
+  type: "week" | "month" | "year" = "month",
+  date?: string
 ) => {
-  return apiRequest("get", `dashboard/${id}?type=${type}`);
+  const params = new URLSearchParams({ type });
+  if (date) params.append("date", date);
+  return apiRequest("get", `dashboard/${id}?${params.toString()}`);
 };

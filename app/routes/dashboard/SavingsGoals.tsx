@@ -19,7 +19,7 @@ interface SavingGoal {
   description: string;
   targetAmount: number;
   currentAmount: number;
-  progress: number; // 0–100, tính sẵn từ backend
+  progress: number; 
   remaining: number;
 }
 
